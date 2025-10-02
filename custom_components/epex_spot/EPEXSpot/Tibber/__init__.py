@@ -11,7 +11,7 @@ TIBBER_QUERY = """
   viewer {
     homes {
       currentSubscription{
-        priceInfo{
+        priceInfo(resolution: QUARTER_HOURLY){
           today {
             total
             energy
@@ -39,7 +39,7 @@ class Marketprice:
 
     def __init__(self, data):
         self._start_time = datetime.fromisoformat(data["startsAt"])
-        self._end_time = self._start_time + timedelta(hours=1)
+        self._end_time = self._start_time + timedelta(minutes=15)
         # Tibber already returns the actual net price for the customer
         # so we can use that
         self._price_per_kwh = round(float(data["total"]), 6)
