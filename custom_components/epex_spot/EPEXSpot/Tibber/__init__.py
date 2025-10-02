@@ -11,7 +11,7 @@ TIBBER_QUERY = """
   viewer {
     homes {
       currentSubscription{
-        priceInfo{
+        priceInfo(resolution: QUARTER_HOURLY){
           today {
             total
             energy
@@ -39,7 +39,7 @@ class Marketprice:
 
     def __init__(self, data):
         self._start_time = datetime.fromisoformat(data["startsAt"])
-        self._end_time = self._start_time + timedelta(hours=1)
+        self._end_time = self._start_time + timedelta(minutes=15)
         # Tibber already returns the actual net price for the customer
         # so we can use that
         self._price_per_kwh = round(float(data["total"]), 6)
@@ -71,7 +71,7 @@ class Tibber:
         self._session = session
         self._token = token
         self._market_area = market_area
-        self._duration = 60
+        self._duration = 15
         self._marketdata = []
 
     @property
@@ -95,6 +95,9 @@ class Tibber:
         return self._marketdata
 
     async def fetch(self):
+        """Fetch market data from Tibber API.
+
+        """
         data = await self._fetch_data(self.URL)
         self._marketdata = self._extract_marketdata(
             data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]
@@ -104,7 +107,7 @@ class Tibber:
         async with self._session.post(
             self.URL,
             data={"query": TIBBER_QUERY},
-            headers={"Authorization": "Bearer {}".format(self._token)},
+            headers={"Authorization": f"Bearer {self._token}"},
         ) as resp:
             resp.raise_for_status()
             return await resp.json()

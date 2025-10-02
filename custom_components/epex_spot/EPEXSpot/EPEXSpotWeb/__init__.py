@@ -24,6 +24,7 @@ MARKET_AREA_MAP = {
     "GB-30": {"auction": "30-call-GB", "market_area": "GB", "duration": 30},
     "GB": {"auction": "GB", "market_area": "GB", "duration": 60},
     "CH": {"auction": "CH", "market_area": "CH", "duration": 60},
+    "DE-LU": {"auction": "DE", "market_area": "DE", "duration": 15},
 }
 
 
@@ -102,7 +103,7 @@ class EPEXSpotWeb:
         item = MARKET_AREA_MAP.get(market_area)
         if item is None:
             self._int_market_area = market_area
-            self._duration = 60
+            self._duration = 15
             self._auction = "MRC"
         else:
             self._int_market_area = item["market_area"]

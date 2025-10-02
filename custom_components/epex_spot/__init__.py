@@ -87,34 +87,26 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.async_on_unload(entry.add_update_listener(on_update_options_listener))
 
-    entry.async_on_unload(
-        async_track_time_change(
-            hass, coordinator.on_refresh, hour=None, minute=0, second=0
-        )
-    )
-    if source.duration == 30 or source.duration == 15:
+    # Schedule regular refreshes based on the source's update duration.
+    # ``source.duration`` defines the data granularity in minutes (e.g., 60, 30, 15).
+    # We register a refresh callback for each multiple of that interval within an hour.
+    # This provides hourly, half‑hourly, or quarter‑hourly updates automatically.
+    interval = source.duration
+    for minute in range(0, 60, interval):
         entry.async_on_unload(
             async_track_time_change(
-                hass, coordinator.on_refresh, hour=None, minute=30, second=0
-            )
-        )
-    if source.duration == 15:
-        entry.async_on_unload(
-            async_track_time_change(
-                hass, coordinator.on_refresh, hour=None, minute=15, second=0
-            )
-        )
-        entry.async_on_unload(
-            async_track_time_change(
-                hass, coordinator.on_refresh, hour=None, minute=45, second=0
+                hass, coordinator.on_refresh, hour=None, minute=minute, second=0
             )
         )
 
-    entry.async_on_unload(
-        async_track_time_change(
-            hass, coordinator.fetch_source, hour=None, minute=50, second=0
+    # Schedule data fetches shortly after each interval to keep data fresh.
+    # We use an offset of 5 minutes after the start of each interval.
+    for minute in range(5, 60, interval):
+        entry.async_on_unload(
+            async_track_time_change(
+                hass, coordinator.fetch_source, hour=None, minute=minute, second=0
+            )
         )
-    )
 
     # service call handling
     async def get_lowest_price_interval(call: ServiceCall) -> ServiceResponse:

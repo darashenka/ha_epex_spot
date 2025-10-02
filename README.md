@@ -1,6 +1,9 @@
 # EPEX Spot
 
+## This is a tiny fork of https://github.com/mampfes/ha_epex_spot_sensor with 15 minutes price resolution fix. mampfes did not make release in time, thats why I will do it
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
+
 
 This component adds electricity prices from stock exchange [EPEX Spot](https://www.epexspot.com) to Home Assistant. [EPEX Spot](https://www.epexspot.com) does not provide free access to the data, so this component uses different ways to retrieve the data.
 
@@ -8,7 +11,7 @@ This component adds electricity prices from stock exchange [EPEX Spot](https://w
 
 There is a companion integration which simplifies the use of EPEX Spot integration to switch on/off an application depending on the energy market prices:
 
-<https://github.com/mampfes/ha_epex_spot_sensor>
+<https://github.com/darashenka/ha_epex_spot>
 
 ---
 
@@ -29,7 +32,7 @@ You can choose between multiple sources:
 5. Energyforecast.de
    [Energyforecast.de](https://www.energyforecast.de/api-docs/index.html) provides services to get market price data forecasts for Germany up to 96 hours into the future. An API token is required.
 
-If you like this component, please give it a star on [github](https://github.com/mampfes/hacs_epex_spot).
+If you like this component, please give it a star on [github](https://github.com/darashenka/hacs_epex_spot).
 
 ## Installation
 
@@ -37,7 +40,7 @@ If you like this component, please give it a star on [github](https://github.com
 
 2. Install **EPEX Spot** integration via HACS:
 
-   [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=mampfes&repository=ha_epex_spot)
+   [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=darashenka&repository=ha_epex_spot)
 
 3. Add **EPEX Spot** integration to Home Assistant:
 
@@ -114,7 +117,7 @@ Net Price = ((Market Price * 1.03) + 0.012) * 1.19
 
 #### Note about smartENERGY.at
 
-As of Feb 2024, even though smartENERGY says that the prices reported by the API already include 20% tax (meaning users would configure the sensor to add a static €0.0144 to every price value from the API), [this is incorrect, and the API reports pricing without Tax](https://github.com/mampfes/ha_epex_spot/issues/108#issuecomment-1951423366 "this is incorrect, and the API reports pricing without Tax").
+As of Feb 2024, even though smartENERGY says that the prices reported by the API already include 20% tax (meaning users would configure the sensor to add a static €0.0144 to every price value from the API), [this is incorrect, and the API reports pricing without Tax](https://github.com/darashenka/ha_epex_spot/issues/108#issuecomment-1951423366 "this is incorrect, and the API reports pricing without Tax").
 
 To get the actual, current Net Price [listed by smartENERGY on their website](https://www.smartenergy.at/smartcontrol#:~:text=Aktueller%20Stundenpreis "listed by smartENERGY on their website"), configure:
 
@@ -347,7 +350,7 @@ epex_spot.fetch_data
 
 ### 3. The EPEX Spot Sensor Integration
 
-A significantly easier, GUI-based method to achieve some of the results listed above is to install the [EPEX Spot Sensor](https://github.com/mampfes/ha_epex_spot_sensor "EPEX Spot Sensor") integration (via HACS) and configure helpers with it. An example for this method is covered in FAQ 2 below.
+A significantly easier, GUI-based method to achieve some of the results listed above is to install the [EPEX Spot Sensor](https://github.com/darashenka/ha_epex_spot "EPEX Spot Sensor") integration (via HACS) and configure helpers with it. An example for this method is covered in FAQ 2 below.
 
 ## FAQ
 
@@ -381,7 +384,7 @@ series:
       });
 ```
 
-See [this Show & Tell post](https://github.com/mampfes/ha_epex_spot/discussions/110) for a fancier, more elaborate version of this card that can auto-hide the next day's prices when they aren't available, colour the hourly bars depending on the price, etc.
+See [this Show & Tell post](https://github.com/darashenka/ha_epex_spot/discussions/110) for a fancier, more elaborate version of this card that can auto-hide the next day's prices when they aren't available, colour the hourly bars depending on the price, etc.
 
 **Assumptions:**
 
@@ -393,7 +396,7 @@ If you are using a different source, you will need to first update `sensor.epex_
 
 ### 2. How can I optimise the best moment to start appliances?
 
-It might be an interesting use case to know what the hours with lowest consecutive prices during the day are. This might be of value when looking for the most optimum time to start your washing machine, dishwasher, dryer, etc. The most convenient way to do this would be to install and configure the [EPEX Spot Sensor](https://github.com/mampfes/ha_epex_spot_sensor "EPEX Spot Sensor") (via HACS).
+It might be an interesting use case to know what the hours with lowest consecutive prices during the day are. This might be of value when looking for the most optimum time to start your washing machine, dishwasher, dryer, etc. The most convenient way to do this would be to install and configure the [EPEX Spot Sensor](https://github.com/darashenka/ha_epex_spot "EPEX Spot Sensor") (via HACS).
 
 #### Example
 
@@ -465,7 +468,7 @@ Finally, create Entity Cards on your dashboard with the sensors you want to disp
 
 ![Dishwasher Card Examples](/images/dishwasher-card-examples.png)
 
-See [this Show & Tell post](https://github.com/mampfes/ha_epex_spot/discussions/111) for a fancier, more elaborate version of this card that can show several appliances at once, auto hide ones that don't have data, and even hide itself when there is no data at all.
+See [this Show & Tell post](https://github.com/darashenka/ha_epex_spot/discussions/111) for a fancier, more elaborate version of this card that can show several appliances at once, auto hide ones that don't have data, and even hide itself when there is no data at all.
 
 ### 3. I want to combine and view everything
 
